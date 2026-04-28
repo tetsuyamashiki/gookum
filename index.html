@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ぐーくむ流通</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;background:#FFF8F0;color:#2d2d2d;overscroll-behavior:none;}
+
+/* ── パスワード画面 ── */
+.pw-screen{display:none;max-width:420px;margin:0 auto;min-height:100vh;background:linear-gradient(160deg,#FF6B6B,#FF8E53);align-items:center;justify-content:center;flex-direction:column;padding:40px 24px;}
+.pw-screen.active{display:flex;}
+.pw-logo{font-size:56px;margin-bottom:8px;}
+.pw-title{font-size:26px;font-weight:800;color:#fff;margin-bottom:4px;}
+.pw-sub{font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:36px;}
+.pw-box{background:#fff;border-radius:24px;padding:28px 24px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);}
+.pw-label{font-size:12px;font-weight:700;color:#FF8E53;margin-bottom:8px;display:block;letter-spacing:.05em;}
+.pw-input{width:100%;padding:14px;border:2px solid #FFE0D0;border-radius:14px;font-size:20px;color:#2d2d2d;font-family:inherit;letter-spacing:6px;text-align:center;}
+.pw-input:focus{outline:none;border-color:#FF8E53;}
+.pw-btn{width:100%;padding:15px;border-radius:14px;font-size:16px;font-weight:800;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;margin-top:14px;box-shadow:0 4px 14px rgba(255,107,107,0.35);}
+.pw-btn:active{opacity:0.8;}
+.pw-error{font-size:13px;color:#FF6B6B;text-align:center;margin-top:12px;min-height:20px;font-weight:600;}
+
+/* ── アプリ画面 ── */
+.page{display:none;max-width:420px;margin:0 auto;min-height:100vh;background:#FFF8F0;padding-bottom:100px;}
+.page.active{display:block;}
+
+.topbar{padding:18px 16px 12px;background:linear-gradient(135deg,#FF6B6B,#FF8E53);display:flex;align-items:center;gap:12px;}
+.topbar-back{font-size:24px;cursor:pointer;padding:0 4px;border:none;background:none;color:#fff;}
+.topbar-title{font-size:22px;font-weight:800;flex:1;color:#fff;letter-spacing:-0.3px;}
+.topbar-sub{font-size:12px;color:rgba(255,255,255,0.85);margin-top:3px;}
+
+.filter-bar{display:flex;gap:8px;padding:14px 14px 6px;overflow-x:auto;}
+.filter-bar::-webkit-scrollbar{display:none;}
+.chip{flex-shrink:0;padding:8px 16px;border-radius:30px;font-size:13px;font-weight:600;border:2px solid #FFD0B0;background:#fff;cursor:pointer;color:#FF8E53;font-family:inherit;transition:all 0.15s;}
+.chip.active{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;border-color:transparent;}
+
+.list-wrap{padding:10px 14px;}
+.item-card{background:#fff;border-radius:20px;margin-bottom:14px;overflow:hidden;box-shadow:0 3px 12px rgba(255,107,107,0.1);}
+.item-top{display:flex;gap:12px;padding:14px;}
+.thumb{width:76px;height:76px;border-radius:14px;background:linear-gradient(135deg,#FFE0D0,#FFD0B0);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;font-weight:700;color:#FF6B6B;}
+.thumb img{width:100%;height:100%;object-fit:cover;}
+.item-main{flex:1;min-width:0;}
+.item-name{font-size:16px;font-weight:700;line-height:1.3;color:#2d2d2d;}
+.item-desc{font-size:12px;color:#aaa;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.tag{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:600;}
+.tag-green{background:#E8F8E8;color:#2E9E2E;}
+.tag-amber{background:#FFF3E0;color:#E65100;}
+.tag-red{background:#FFEAEA;color:#D32F2F;}
+.tag-gray{background:#F5F5F5;color:#999;}
+
+.qty-row{display:flex;align-items:center;border-top:1.5px dashed #FFE0D0;margin:0 14px;}
+.qty-btn{flex:0 0 52px;height:48px;border:none;background:none;font-size:24px;cursor:pointer;color:#FF6B6B;font-family:inherit;font-weight:700;}
+.qty-btn:active{background:#FFF0EC;}
+.qty-sep{width:1.5px;background:#FFE0D0;height:28px;}
+.qty-num{flex:1;text-align:center;font-size:14px;color:#888;}
+.qty-num strong{font-size:18px;font-weight:800;color:#FF6B6B;}
+
+.item-actions{display:flex;padding:4px 8px 8px;}
+.act-btn{flex:1;padding:10px;font-size:13px;font-weight:600;border:none;background:none;cursor:pointer;color:#bbb;font-family:inherit;border-radius:10px;}
+.act-btn:active{background:#FFF0EC;}
+.act-btn.danger{color:#FF6B6B;}
+
+.empty{text-align:center;padding:4rem 1rem;color:#FFB899;font-size:14px;line-height:2;}
+.empty-icon{font-size:48px;display:block;margin-bottom:12px;}
+
+.fab{position:fixed;bottom:24px;right:16px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;border:none;font-size:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:9;box-shadow:0 4px 16px rgba(255,107,107,0.45);}
+@media(min-width:420px){.fab{right:calc(50% - 194px);}}
+
+.form-wrap{padding:18px 14px;}
+.camera-area{margin-bottom:20px;}
+.cam-placeholder{width:100%;height:170px;border-radius:20px;background:linear-gradient(135deg,#FFE8DC,#FFD0B0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:none;font-family:inherit;cursor:pointer;}
+.cam-placeholder-icon{font-size:44px;}
+.cam-placeholder-text{font-size:15px;color:#FF6B6B;font-weight:700;}
+.cam-placeholder-sub{font-size:12px;color:#FFB899;}
+.cam-preview-img{width:100%;height:170px;object-fit:cover;border-radius:20px;display:block;}
+.cam-retake{width:100%;margin-top:10px;padding:12px;border:2px solid #FFD0B0;border-radius:14px;background:#fff;font-size:14px;font-weight:600;color:#FF8E53;cursor:pointer;font-family:inherit;}
+.cam-retake:active{background:#FFF0EC;}
+input[type=file]{display:none;}
+
+.fg{margin-bottom:16px;}
+.fl{font-size:12px;color:#FF8E53;margin-bottom:6px;display:block;font-weight:700;letter-spacing:.03em;}
+.fi{width:100%;padding:14px;border:2px solid #FFE0D0;border-radius:14px;font-size:16px;color:#2d2d2d;background:#fff;font-family:inherit;}
+.fi:focus{outline:none;border-color:#FF8E53;}
+.frow{display:flex;gap:10px;}
+.frow .fg{flex:1;}
+
+.btn{width:100%;padding:16px;border-radius:16px;font-size:16px;font-weight:800;border:none;cursor:pointer;font-family:inherit;}
+.btn:active{opacity:0.8;}
+.btn-primary{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;box-shadow:0 4px 14px rgba(255,107,107,0.35);}
+.btn-light{background:#FFF0EC;color:#FF8E53;margin-top:10px;}
+
+.toast{position:fixed;top:76px;left:50%;transform:translateX(-50%);background:#2d2d2d;color:#fff;padding:11px 24px;border-radius:30px;font-size:14px;font-weight:600;z-index:30;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<!-- ══════════ パスワード画面 ══════════ -->
+<div id="page-pw" class="pw-screen active">
+  <div class="pw-logo">🌺</div>
+  <div class="pw-title">ぐーくむ流通</div>
+  <div class="pw-sub">パスワードを入力してください</div>
+  <div class="pw-box">
+    <label class="pw-label">パスワード</label>
+    <input class="pw-input" id="pw-input" type="password" placeholder="••••••" onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="pw-btn" onclick="checkPw()">入る 🔓</button>
+    <div class="pw-error" id="pw-error"></div>
+  </div>
+</div>
+
+<!-- ══════════ 在庫一覧画面 ══════════ -->
+<div id="page-list" class="page">
+  <div class="topbar">
+    <div style="flex:1;">
+      <div class="topbar-title">🌺 ぐーくむ流通</div>
+      <div class="topbar-sub" id="stats-bar">―</div>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <button class="chip active" onclick="setFilter('all',this)">すべて</button>
+    <button class="chip" onclick="setFilter('expiring14',this)">⚡ 2週間以内</button>
+    <button class="chip" onclick="setFilter('expiring30',this)">⏰ 30日以内</button>
+    <button class="chip" onclick="setFilter('expired',this)">期限切れ</button>
+  </div>
+  <div class="list-wrap" id="inventory-list"></div>
+  <button class="fab" onclick="goAdd()">＋</button>
+</div>
+
+<!-- ══════════ 追加画面 ══════════ -->
+<div id="page-add" class="page">
+  <div class="topbar">
+    <button class="topbar-back" onclick="goList()">‹</button>
+    <div class="topbar-title">追加する</div>
+  </div>
+  <div class="form-wrap">
+    <div class="camera-area">
+      <div id="add-empty">
+        <button class="cam-placeholder" onclick="document.getElementById('add-file').click()">
+          <span class="cam-placeholder-icon">📷</span>
+          <span class="cam-placeholder-text">写真を撮る</span>
+          <span class="cam-placeholder-sub">スキップしてもOK</span>
+        </button>
+      </div>
+      <div id="add-has-photo" style="display:none;">
+        <img id="add-img" class="cam-preview-img" src="" alt="">
+        <button class="cam-retake" onclick="document.getElementById('add-file').click()">📷 撮り直す</button>
+      </div>
+      <input type="file" id="add-file" accept="image/*" capture="environment" onchange="onPhoto(event,'add')">
+    </div>
+    <div class="fg">
+      <label class="fl">商品名 *</label>
+      <input class="fi" id="f-name" type="text" placeholder="例：ポカリスエット 500ml×6本">
+    </div>
+    <div class="fg">
+      <label class="fl">メモ・詳細</label>
+      <input class="fi" id="f-desc" type="text" placeholder="例：常温保存、未開封">
+    </div>
+    <div class="frow">
+      <div class="fg">
+        <label class="fl">個数</label>
+        <input class="fi" id="f-qty" type="number" min="1" value="1">
+      </div>
+      <div class="fg">
+        <label class="fl">賞味期限</label>
+        <input class="fi" id="f-exp" type="date">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="saveItem()">登録する 🎉</button>
+    <button class="btn btn-light" onclick="goList()">キャンセル</button>
+  </div>
+</div>
+
+<!-- ══════════ 編集画面 ══════════ -->
+<div id="page-edit" class="page">
+  <div class="topbar">
+    <button class="topbar-back" onclick="goList()">‹</button>
+    <div class="topbar-title">編集する</div>
+  </div>
+  <div class="form-wrap">
+    <div class="camera-area">
+      <div id="edit-empty">
+        <button class="cam-placeholder" onclick="document.getElementById('edit-file').click()">
+          <span class="cam-placeholder-icon">📷</span>
+          <span class="cam-placeholder-text">写真を撮る</span>
+        </button>
+      </div>
+      <div id="edit-has-photo" style="display:none;">
+        <img id="edit-img" class="cam-preview-img" src="" alt="">
+        <button class="cam-retake" onclick="document.getElementById('edit-file').click()">📷 撮り直す</button>
+      </div>
+      <input type="file" id="edit-file" accept="image/*" capture="environment" onchange="onPhoto(event,'edit')">
+    </div>
+    <div class="fg">
+      <label class="fl">商品名</label>
+      <input class="fi" id="ef-name" type="text">
+    </div>
+    <div class="fg">
+      <label class="fl">メモ</label>
+      <input class="fi" id="ef-desc" type="text">
+    </div>
+    <div class="frow">
+      <div class="fg">
+        <label class="fl">個数</label>
+        <input class="fi" id="ef-qty" type="number" min="0">
+      </div>
+      <div class="fg">
+        <label class="fl">賞味期限</label>
+        <input class="fi" id="ef-exp" type="date">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="saveEdit()">保存する ✓</button>
+    <button class="btn btn-light" onclick="goList()">キャンセル</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PASSWORD = 'gookum';
+
+let items = JSON.parse(localStorage.getItem('gukumu_v1') || '[]');
+let currentFilter = 'all';
+let editingId = null;
+let addImg = '';
+let editImg = '';
+
+/* ── パスワード ── */
+function checkPw() {
+  const val = document.getElementById('pw-input').value;
+  if (val === PASSWORD) {
+    try { sessionStorage.setItem('gukumu_auth', '1'); } catch(e) {}
+    document.getElementById('page-pw').classList.remove('active');
+    document.getElementById('page-pw').style.display = 'none';
+    showPage('page-list');
+    renderInventory();
+  } else {
+    const err = document.getElementById('pw-error');
+    err.textContent = 'パスワードが違います';
+    document.getElementById('pw-input').value = '';
+    setTimeout(() => { err.textContent = ''; }, 2000);
+  }
+}
+
+// セッション中は再入力不要
+(function() {
+  try {
+    if (sessionStorage.getItem('gukumu_auth') === '1') {
+      document.getElementById('page-pw').classList.remove('active');
+      document.getElementById('page-pw').style.display = 'none';
+      document.getElementById('page-list').classList.add('active');
+    }
+  } catch(e) {}
+})();
+
+/* ── ページ遷移 ── */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goList() {
+  showPage('page-list');
+  renderInventory();
+}
+
+function goAdd() {
+  addImg = '';
+  document.getElementById('add-file').value = '';
+  document.getElementById('add-img').src = '';
+  document.getElementById('add-empty').style.display = 'block';
+  document.getElementById('add-has-photo').style.display = 'none';
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-desc').value = '';
+  document.getElementById('f-qty').value = '1';
+  document.getElementById('f-exp').value = '';
+  showPage('page-add');
+}
+
+function goEdit(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  editingId = id;
+  editImg = item.img || '';
+  document.getElementById('edit-file').value = '';
+  if (item.img) {
+    document.getElementById('edit-img').src = item.img;
+    document.getElementById('edit-empty').style.display = 'none';
+    document.getElementById('edit-has-photo').style.display = 'block';
+  } else {
+    document.getElementById('edit-img').src = '';
+    document.getElementById('edit-empty').style.display = 'block';
+    document.getElementById('edit-has-photo').style.display = 'none';
+  }
+  document.getElementById('ef-name').value = item.name;
+  document.getElementById('ef-desc').value = item.desc || '';
+  document.getElementById('ef-qty').value = item.qty;
+  document.getElementById('ef-exp').value = item.exp || '';
+  showPage('page-edit');
+}
+
+/* ── 写真 ── */
+function onPhoto(e, mode) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const data = ev.target.result;
+    if (mode === 'add') {
+      addImg = data;
+      document.getElementById('add-img').src = data;
+      document.getElementById('add-empty').style.display = 'none';
+      document.getElementById('add-has-photo').style.display = 'block';
+    } else {
+      editImg = data;
+      document.getElementById('edit-img').src = data;
+      document.getElementById('edit-empty').style.display = 'none';
+      document.getElementById('edit-has-photo').style.display = 'block';
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ── データ ── */
+function save() {
+  try { localStorage.setItem('gukumu_v1', JSON.stringify(items)); } catch(e) {}
+  updateStats();
+}
+
+function saveItem() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { alert('商品名を入力してください'); return; }
+  items.unshift({
+    id: Date.now().toString(),
+    name,
+    desc: document.getElementById('f-desc').value.trim(),
+    qty: parseInt(document.getElementById('f-qty').value) || 1,
+    exp: document.getElementById('f-exp').value,
+    img: addImg,
+    createdAt: new Date().toLocaleString('ja-JP')
+  });
+  save();
+  goList();
+  toast('登録しました 🎉');
+}
+
+function saveEdit() {
+  const item = items.find(i => i.id === editingId);
+  if (!item) return;
+  const name = document.getElementById('ef-name').value.trim();
+  if (!name) { alert('商品名を入力してください'); return; }
+  item.name = name;
+  item.desc = document.getElementById('ef-desc').value.trim();
+  item.qty = parseInt(document.getElementById('ef-qty').value) || 0;
+  item.exp = document.getElementById('ef-exp').value;
+  item.img = editImg;
+  save();
+  goList();
+  toast('更新しました ✓');
+}
+
+function deleteItem(id) {
+  const item = items.find(i => i.id === id);
+  if (!item || !confirm(`「${item.name}」を削除しますか？`)) return;
+  items = items.filter(i => i.id !== id);
+  save();
+  renderInventory();
+  toast('削除しました');
+}
+
+function changeQty(id, delta) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  item.qty = Math.max(0, item.qty + delta);
+  save();
+  renderInventory();
+}
+
+/* ── 表示 ── */
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function updateStats() {
+  const active = items.filter(i => i.qty > 0).length;
+  const expiring14 = items.filter(i => {
+    if (!i.exp || i.qty <= 0) return false;
+    const d = (new Date(i.exp) - new Date()) / 86400000;
+    return d >= 0 && d < 14;
+  }).length;
+  document.getElementById('stats-bar').textContent =
+    `在庫あり ${active}件 ／ 2週間以内 ${expiring14}件`;
+}
+
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderInventory();
+}
+
+function getTag(item) {
+  if (item.qty <= 0) return { label: '在庫なし', cls: 'tag-gray' };
+  if (!item.exp) return { label: '期限不明', cls: 'tag-gray' };
+  const d = (new Date(item.exp) - new Date()) / 86400000;
+  if (d < 0) return { label: '期限切れ ⚠️', cls: 'tag-red' };
+  if (d < 14) return { label: `⚡ 残り${Math.ceil(d)}日`, cls: 'tag-red' };
+  if (d < 30) return { label: `⏰ 残り${Math.ceil(d)}日`, cls: 'tag-amber' };
+  return { label: item.exp + ' まで', cls: 'tag-green' };
+}
+
+function sortItems(list) {
+  return [...list].sort((a, b) => {
+    const aOut = a.qty <= 0, bOut = b.qty <= 0;
+    if (aOut !== bOut) return aOut ? 1 : -1;
+    if (!a.exp && !b.exp) return 0;
+    if (!a.exp) return 1;
+    if (!b.exp) return -1;
+    return new Date(a.exp) - new Date(b.exp);
+  });
+}
+
+function renderInventory() {
+  let list = sortItems(items);
+  if (currentFilter === 'expiring14') list = list.filter(i => {
+    if (!i.exp || i.qty <= 0) return false;
+    const d = (new Date(i.exp) - new Date()) / 86400000;
+    return d >= 0 && d < 14;
+  });
+  if (currentFilter === 'expiring30') list = list.filter(i => {
+    if (!i.exp || i.qty <= 0) return false;
+    const d = (new Date(i.exp) - new Date()) / 86400000;
+    return d >= 0 && d < 30;
+  });
+  if (currentFilter === 'expired') list = list.filter(i => {
+    if (!i.exp) return false;
+    return (new Date(i.exp) - new Date()) / 86400000 < 0;
+  });
+
+  const el = document.getElementById('inventory-list');
+  if (!list.length) {
+    el.innerHTML = '<div class="empty"><span class="empty-icon">📦</span>該当する商品がありません<br>右下の ＋ から登録してください</div>';
+    return;
+  }
+  el.innerHTML = list.map(item => {
+    const tag = getTag(item);
+    return `<div class="item-card">
+      <div class="item-top">
+        <div class="thumb">${item.img ? `<img src="${item.img}" alt="">` : item.name.slice(0,2)}</div>
+        <div class="item-main">
+          <div class="item-name">${item.name}</div>
+          ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+          <div class="tags">
+            <span class="tag ${tag.cls}">${tag.label}</span>
+          </div>
+        </div>
+      </div>
+      <div class="qty-row">
+        <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
+        <div class="qty-sep"></div>
+        <div class="qty-num">残り <strong>${item.qty}</strong> 個</div>
+        <div class="qty-sep"></div>
+        <button class="qty-btn" onclick="changeQty('${item.id}',1)">＋</button>
+      </div>
+      <div class="item-actions">
+        <button class="act-btn" onclick="goEdit('${item.id}')">✏️ 編集</button>
+        <button class="act-btn danger" onclick="deleteItem('${item.id}')">🗑️ 削除</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+updateStats();
+</script>
+</body>
+</html>
