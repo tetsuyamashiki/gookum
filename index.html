@@ -269,18 +269,24 @@ async function sbFetch(path, options = {}) {
 
 async function uploadImage(file) {
   if (!file) return null;
-  const ext = file.name.split('.').pop() || 'jpg';
+  const contentType = file.type || 'image/jpeg';
+  const ext = contentType.split('/')[1] || 'jpg';
   const filename = Date.now() + '.' + ext;
   const res = await fetch(`${SUPABASE_URL}/storage/v1/object/images/${filename}`, {
     method: 'POST',
     headers: {
       'apikey': SUPABASE_KEY,
       'Authorization': 'Bearer ' + SUPABASE_KEY,
-      'Content-Type': file.type
+      'Content-Type': contentType,
+      'x-upsert': 'true'
     },
     body: file
   });
-  if (!res.ok) return null;
+  if (!res.ok) {
+    const errText = await res.text();
+    console.error('Upload error:', res.status, errText);
+    return null;
+  }
   return `${SUPABASE_URL}/storage/v1/object/public/images/${filename}`;
 }
 
