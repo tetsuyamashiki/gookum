@@ -27,6 +27,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
 
 /* ── ヘッダー ── */
 .topbar{padding:18px 16px 12px;background:linear-gradient(135deg,#FF6B6B,#FF8E53);display:flex;align-items:center;gap:12px;}
+.topbar-back{font-size:24px;cursor:pointer;padding:0 4px;border:none;background:none;color:#fff;}
 .topbar-title{font-size:22px;font-weight:800;flex:1;color:#fff;}
 .topbar-sub{font-size:12px;color:rgba(255,255,255,0.85);margin-top:3px;}
 .topbar-reload{background:rgba(255,255,255,0.25);border:none;border-radius:20px;color:#fff;font-size:13px;font-weight:600;padding:6px 14px;cursor:pointer;font-family:inherit;}
@@ -65,9 +66,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
 .act-btn:active{background:#FFF0EC;}
 .act-btn.danger{color:#FF6B6B;}
 
-/* ── 登録ボタン ── */
-.register-bar{padding:12px 14px 0;}
-.register-btn{display:block;width:100%;padding:16px;background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;border:none;border-radius:16px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;box-shadow:0 4px 14px rgba(255,107,107,0.35);}
+/* ── FAB ── */
+.fab{position:fixed;bottom:24px;right:16px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;border:none;font-size:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:9;box-shadow:0 4px 16px rgba(255,107,107,0.45);}
+@media(min-width:420px){.fab{right:calc(50% - 194px);}}
+
+/* ── フォーム画面 ── */
+.form-wrap{padding:18px 14px;}
+.camera-area{margin-bottom:20px;}
+.cam-placeholder{width:100%;height:170px;border-radius:20px;background:linear-gradient(135deg,#FFE8DC,#FFD0B0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:none;font-family:inherit;cursor:pointer;}
+.cam-placeholder-icon{font-size:44px;}
+.cam-placeholder-text{font-size:15px;color:#FF6B6B;font-weight:700;}
+.cam-placeholder-sub{font-size:12px;color:#FFB899;}
+.cam-preview-img{width:100%;height:170px;object-fit:cover;border-radius:20px;display:block;}
+.cam-retake{width:100%;margin-top:10px;padding:12px;border:2px solid #FFD0B0;border-radius:14px;background:#fff;font-size:14px;font-weight:600;color:#FF8E53;cursor:pointer;font-family:inherit;}
+.cam-retake:active{background:#FFF0EC;}
+input[type=file]{display:none;}
+
+.fg{margin-bottom:16px;}
+.fl{font-size:12px;color:#FF8E53;margin-bottom:6px;display:block;font-weight:700;}
+.fi{width:100%;padding:14px;border:2px solid #FFE0D0;border-radius:14px;font-size:16px;color:#2d2d2d;background:#fff;font-family:inherit;}
+.fi:focus{outline:none;border-color:#FF8E53;}
+.frow{display:flex;gap:10px;}
+.frow .fg{flex:1;}
+.btn{width:100%;padding:16px;border-radius:16px;font-size:16px;font-weight:800;border:none;cursor:pointer;font-family:inherit;}
+.btn:active{opacity:0.8;}
+.btn-primary{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;box-shadow:0 4px 14px rgba(255,107,107,0.35);}
+.btn-light{background:#FFF0EC;color:#FF8E53;margin-top:10px;}
 
 /* ── ローディング ── */
 .loading{text-align:center;padding:3rem 1rem;color:#FFB899;font-size:14px;}
@@ -79,19 +103,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
 .toast{position:fixed;top:76px;left:50%;transform:translateX(-50%);background:#2d2d2d;color:#fff;padding:11px 24px;border-radius:30px;font-size:14px;font-weight:600;z-index:30;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;}
 
-/* ── 編集画面 ── */
-.topbar-back{font-size:24px;cursor:pointer;padding:0 4px;border:none;background:none;color:#fff;}
-.form-wrap{padding:18px 14px;}
-.fg{margin-bottom:16px;}
-.fl{font-size:12px;color:#FF8E53;margin-bottom:6px;display:block;font-weight:700;}
-.fi{width:100%;padding:14px;border:2px solid #FFE0D0;border-radius:14px;font-size:16px;color:#2d2d2d;background:#fff;font-family:inherit;}
-.fi:focus{outline:none;border-color:#FF8E53;}
-.frow{display:flex;gap:10px;}
-.frow .fg{flex:1;}
-.btn{width:100%;padding:16px;border-radius:16px;font-size:16px;font-weight:800;border:none;cursor:pointer;font-family:inherit;}
-.btn:active{opacity:0.8;}
-.btn-primary{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;box-shadow:0 4px 14px rgba(255,107,107,0.35);}
-.btn-light{background:#FFF0EC;color:#FF8E53;margin-top:10px;}
+.uploading-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:50;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:#fff;font-size:16px;font-weight:600;}
+.uploading-overlay.hidden{display:none;}
 </style>
 </head>
 <body>
@@ -118,9 +131,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
     </div>
     <button class="topbar-reload" onclick="loadData()">↺ 更新</button>
   </div>
-  <div class="register-bar">
-    <a class="register-btn" href="https://forms.gle/YnrhSFmySJu4Tu9U9" target="_blank">＋ 商品を登録する</a>
-  </div>
   <div class="filter-bar">
     <button class="chip active" onclick="setFilter('all',this)">すべて</button>
     <button class="chip" onclick="setFilter('expiring14',this)">⚡ 2週間以内</button>
@@ -130,22 +140,90 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
   <div class="list-wrap" id="inventory-list">
     <div class="loading"><span class="loading-icon">🌀</span>読み込み中...</div>
   </div>
+  <button class="fab" onclick="goAdd()">＋</button>
+</div>
+
+<!-- ══════════ 追加画面 ══════════ -->
+<div id="page-add" class="page">
+  <div class="topbar">
+    <button class="topbar-back" onclick="goList()">‹</button>
+    <div class="topbar-title">追加する</div>
+  </div>
+  <div class="form-wrap">
+    <div class="camera-area">
+      <div id="add-empty">
+        <button class="cam-placeholder" onclick="document.getElementById('add-file').click()">
+          <span class="cam-placeholder-icon">📷</span>
+          <span class="cam-placeholder-text">写真を撮る</span>
+          <span class="cam-placeholder-sub">スキップしてもOK</span>
+        </button>
+      </div>
+      <div id="add-has-photo" style="display:none;">
+        <img id="add-img" class="cam-preview-img" src="" alt="">
+        <button class="cam-retake" onclick="document.getElementById('add-file').click()">📷 撮り直す</button>
+      </div>
+      <input type="file" id="add-file" accept="image/*" capture="environment" onchange="onPhoto(event)">
+    </div>
+    <div class="fg">
+      <label class="fl">商品名 *</label>
+      <input class="fi" id="f-name" type="text" placeholder="例：ポカリスエット 500ml×6本">
+    </div>
+    <div class="fg">
+      <label class="fl">メモ・詳細</label>
+      <input class="fi" id="f-desc" type="text" placeholder="例：常温保存、未開封">
+    </div>
+    <div class="frow">
+      <div class="fg">
+        <label class="fl">個数</label>
+        <input class="fi" id="f-qty" type="number" min="1" value="1">
+      </div>
+      <div class="fg">
+        <label class="fl">賞味期限</label>
+        <input class="fi" id="f-exp" type="date">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="saveItem()">登録する 🎉</button>
+    <button class="btn btn-light" onclick="goList()">キャンセル</button>
+  </div>
 </div>
 
 <!-- ══════════ 編集画面 ══════════ -->
 <div id="page-edit" class="page">
   <div class="topbar">
     <button class="topbar-back" onclick="goList()">‹</button>
-    <div class="topbar-title">個数を編集</div>
+    <div class="topbar-title">編集する</div>
   </div>
   <div class="form-wrap">
-    <div class="fg">
-      <label class="fl">商品名</label>
-      <div class="fi" id="ef-name" style="background:#f9f9f9;color:#888;"></div>
+    <div class="camera-area">
+      <div id="edit-empty">
+        <button class="cam-placeholder" onclick="document.getElementById('edit-file').click()">
+          <span class="cam-placeholder-icon">📷</span>
+          <span class="cam-placeholder-text">写真を変更</span>
+        </button>
+      </div>
+      <div id="edit-has-photo" style="display:none;">
+        <img id="edit-img" class="cam-preview-img" src="" alt="">
+        <button class="cam-retake" onclick="document.getElementById('edit-file').click()">📷 撮り直す</button>
+      </div>
+      <input type="file" id="edit-file" accept="image/*" capture="environment" onchange="onEditPhoto(event)">
     </div>
     <div class="fg">
-      <label class="fl">個数</label>
-      <input class="fi" id="ef-qty" type="number" min="0">
+      <label class="fl">商品名</label>
+      <input class="fi" id="ef-name" type="text">
+    </div>
+    <div class="fg">
+      <label class="fl">メモ</label>
+      <input class="fi" id="ef-desc" type="text">
+    </div>
+    <div class="frow">
+      <div class="fg">
+        <label class="fl">個数</label>
+        <input class="fi" id="ef-qty" type="number" min="0">
+      </div>
+      <div class="fg">
+        <label class="fl">賞味期限</label>
+        <input class="fi" id="ef-exp" type="date">
+      </div>
     </div>
     <button class="btn btn-primary" onclick="saveEdit()">保存する ✓</button>
     <button class="btn btn-light" onclick="goList()">キャンセル</button>
@@ -153,23 +231,57 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
 </div>
 
 <div class="toast" id="toast"></div>
+<div class="uploading-overlay hidden" id="uploading">
+  <span style="font-size:40px;">⏳</span>
+  <span id="uploading-msg">登録中...</span>
+</div>
 
 <script>
 const PASSWORD = 'gookum';
-const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQPgR_RfnNUq8qOumo6Ow0c5u3Bk3UqN0e6RiUV2Ps4Zrx42l0S2TrD-62i1hPjeISCAmIb6XWmugz_/pub?gid=392660391&single=true&output=csv';
+const SUPABASE_URL = 'https://tqmdbytbxlnsxxsjfren.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_KzjycLagdPO2xPQyzuETmw_bFib4K6a';
 
 let items = [];
-let qtyOverrides = {}; // 個数の上書き保存（localStorageで管理）
 let currentFilter = 'all';
 let editingId = null;
+let addImgFile = null;
+let editImgFile = null;
 
-/* ── 起動時にlocalStorageから個数上書きを復元 ── */
-try {
-  qtyOverrides = JSON.parse(localStorage.getItem('gukumu_qty') || '{}');
-} catch(e) { qtyOverrides = {}; }
+/* ── Supabase API ── */
+async function sbFetch(path, options = {}) {
+  const res = await fetch(SUPABASE_URL + path, {
+    ...options,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation',
+      ...(options.headers || {})
+    }
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
 
-function saveQty() {
-  try { localStorage.setItem('gukumu_qty', JSON.stringify(qtyOverrides)); } catch(e) {}
+async function uploadImage(file) {
+  if (!file) return null;
+  const ext = file.name.split('.').pop() || 'jpg';
+  const filename = Date.now() + '.' + ext;
+  const res = await fetch(`${SUPABASE_URL}/storage/v1/object/images/${filename}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': file.type
+    },
+    body: file
+  });
+  if (!res.ok) return null;
+  return `${SUPABASE_URL}/storage/v1/object/public/images/${filename}`;
 }
 
 /* ── パスワード ── */
@@ -212,70 +324,184 @@ function goList() {
   renderInventory();
 }
 
-/* ── スプレッドシートからCSVを読み込む ── */
+function goAdd() {
+  addImgFile = null;
+  document.getElementById('add-file').value = '';
+  document.getElementById('add-img').src = '';
+  document.getElementById('add-empty').style.display = 'block';
+  document.getElementById('add-has-photo').style.display = 'none';
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-desc').value = '';
+  document.getElementById('f-qty').value = '1';
+  document.getElementById('f-exp').value = '';
+  showPage('page-add');
+}
+
+function goEdit(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  editingId = id;
+  editImgFile = null;
+  document.getElementById('edit-file').value = '';
+  if (item.img_url) {
+    document.getElementById('edit-img').src = item.img_url;
+    document.getElementById('edit-empty').style.display = 'none';
+    document.getElementById('edit-has-photo').style.display = 'block';
+  } else {
+    document.getElementById('edit-img').src = '';
+    document.getElementById('edit-empty').style.display = 'block';
+    document.getElementById('edit-has-photo').style.display = 'none';
+  }
+  document.getElementById('ef-name').value = item.name || '';
+  document.getElementById('ef-desc').value = item.description || '';
+  document.getElementById('ef-qty').value = item.qty || 0;
+  document.getElementById('ef-exp').value = item.exp || '';
+  showPage('page-edit');
+}
+
+/* ── 写真 ── */
+function onPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  addImgFile = file;
+  const url = URL.createObjectURL(file);
+  document.getElementById('add-img').src = url;
+  document.getElementById('add-empty').style.display = 'none';
+  document.getElementById('add-has-photo').style.display = 'block';
+}
+
+function onEditPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  editImgFile = file;
+  const url = URL.createObjectURL(file);
+  document.getElementById('edit-img').src = url;
+  document.getElementById('edit-empty').style.display = 'none';
+  document.getElementById('edit-has-photo').style.display = 'block';
+}
+
+/* ── データ読み込み ── */
 async function loadData() {
   document.getElementById('inventory-list').innerHTML =
     '<div class="loading"><span class="loading-icon">🌀</span>読み込み中...</div>';
   try {
-    const res = await fetch(CSV_URL + '&t=' + Date.now());
-    const text = await res.text();
-    items = parseCSV(text);
+    items = await sbFetch('/rest/v1/items?select=*&order=exp.asc.nullslast');
     renderInventory();
     updateStats();
   } catch(e) {
     document.getElementById('inventory-list').innerHTML =
-      '<div class="empty"><span class="empty-icon">⚠️</span>データの読み込みに失敗しました<br>↺ 更新ボタンを押してください</div>';
+      '<div class="empty"><span class="empty-icon">⚠️</span>読み込みに失敗しました<br>↺ 更新を押してください</div>';
   }
 }
 
-/* ── CSV解析 ── */
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  if (lines.length < 2) return [];
-  // ヘッダー行をスキップ、データ行を解析
-  // 列順：タイムスタンプ, 商品名, メモ, 個数, 賞味期限, 写真URL
-  return lines.slice(1).map((line, i) => {
-    const cols = parseCSVLine(line);
-    const id = 'row_' + i;
-    return {
-      id,
-      name: cols[1] || '',
-      desc: cols[2] || '',
-      qty: qtyOverrides[id] !== undefined ? qtyOverrides[id] : (parseInt(cols[3]) || 1),
-      exp: parseDate(cols[4] || ''),
-      imgUrl: cols[5] || '',
-      createdAt: cols[0] || ''
-    };
-  }).filter(i => i.name);
-}
+/* ── 保存 ── */
+async function saveItem() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { alert('商品名を入力してください'); return; }
 
-function parseCSVLine(line) {
-  const result = [];
-  let current = '';
-  let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    if (line[i] === '"') {
-      inQuotes = !inQuotes;
-    } else if (line[i] === ',' && !inQuotes) {
-      result.push(current.trim());
-      current = '';
-    } else {
-      current += line[i];
+  showUploading('登録中...');
+  try {
+    let img_url = null;
+    if (addImgFile) {
+      showUploading('写真をアップロード中...');
+      img_url = await uploadImage(addImgFile);
     }
+    await sbFetch('/rest/v1/items', {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        description: document.getElementById('f-desc').value.trim(),
+        qty: parseInt(document.getElementById('f-qty').value) || 1,
+        exp: document.getElementById('f-exp').value || null,
+        img_url
+      })
+    });
+    hideUploading();
+    await loadData();
+    showPage('page-list');
+    toast('登録しました 🎉');
+  } catch(e) {
+    hideUploading();
+    alert('登録に失敗しました。もう一度お試しください。');
   }
-  result.push(current.trim());
-  return result;
 }
 
-function parseDate(str) {
-  if (!str) return '';
-  // 色々な日付形式に対応
-  const m = str.match(/(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})/);
-  if (m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
-  return '';
+async function saveEdit() {
+  const name = document.getElementById('ef-name').value.trim();
+  if (!name) { alert('商品名を入力してください'); return; }
+
+  showUploading('更新中...');
+  try {
+    let img_url = items.find(i => i.id === editingId)?.img_url || null;
+    if (editImgFile) {
+      showUploading('写真をアップロード中...');
+      img_url = await uploadImage(editImgFile);
+    }
+    await sbFetch(`/rest/v1/items?id=eq.${editingId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        name,
+        description: document.getElementById('ef-desc').value.trim(),
+        qty: parseInt(document.getElementById('ef-qty').value) || 0,
+        exp: document.getElementById('ef-exp').value || null,
+        img_url
+      })
+    });
+    hideUploading();
+    await loadData();
+    showPage('page-list');
+    toast('更新しました ✓');
+  } catch(e) {
+    hideUploading();
+    alert('更新に失敗しました。');
+  }
+}
+
+async function deleteItem(id) {
+  const item = items.find(i => i.id === id);
+  if (!item || !confirm(`「${item.name}」を削除しますか？`)) return;
+  try {
+    await sbFetch(`/rest/v1/items?id=eq.${id}`, { method: 'DELETE' });
+    await loadData();
+    toast('削除しました');
+  } catch(e) {
+    alert('削除に失敗しました。');
+  }
+}
+
+async function changeQty(id, delta) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  const newQty = Math.max(0, (item.qty || 0) + delta);
+  try {
+    await sbFetch(`/rest/v1/items?id=eq.${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ qty: newQty })
+    });
+    item.qty = newQty;
+    updateStats();
+    renderInventory();
+  } catch(e) {
+    alert('更新に失敗しました。');
+  }
 }
 
 /* ── 表示 ── */
+function showUploading(msg) {
+  document.getElementById('uploading-msg').textContent = msg;
+  document.getElementById('uploading').classList.remove('hidden');
+}
+function hideUploading() {
+  document.getElementById('uploading').classList.add('hidden');
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
 function updateStats() {
   const active = items.filter(i => i.qty > 0).length;
   const expiring14 = items.filter(i => {
@@ -304,19 +530,8 @@ function getTag(item) {
   return { label: item.exp + ' まで', cls: 'tag-green' };
 }
 
-function sortItems(list) {
-  return [...list].sort((a, b) => {
-    const aOut = a.qty <= 0, bOut = b.qty <= 0;
-    if (aOut !== bOut) return aOut ? 1 : -1;
-    if (!a.exp && !b.exp) return 0;
-    if (!a.exp) return 1;
-    if (!b.exp) return -1;
-    return new Date(a.exp) - new Date(b.exp);
-  });
-}
-
 function renderInventory() {
-  let list = sortItems(items);
+  let list = [...items];
   if (currentFilter === 'expiring14') list = list.filter(i => {
     if (!i.exp || i.qty <= 0) return false;
     const d = (new Date(i.exp) - new Date()) / 86400000;
@@ -334,20 +549,19 @@ function renderInventory() {
 
   const el = document.getElementById('inventory-list');
   if (!list.length) {
-    el.innerHTML = '<div class="empty"><span class="empty-icon">📦</span>該当する商品がありません</div>';
+    el.innerHTML = '<div class="empty"><span class="empty-icon">📦</span>該当する商品がありません<br>＋ から登録してください</div>';
     return;
   }
   el.innerHTML = list.map(item => {
     const tag = getTag(item);
-    const imgHtml = item.imgUrl
-      ? `<img src="${item.imgUrl}" alt="" onerror="this.style.display='none'">`
-      : item.name.slice(0,2);
     return `<div class="item-card">
       <div class="item-top">
-        <div class="thumb">${imgHtml}</div>
+        <div class="thumb">${item.img_url
+          ? `<img src="${item.img_url}" alt="" onerror="this.style.display='none'">`
+          : (item.name || '').slice(0,2)}</div>
         <div class="item-main">
-          <div class="item-name">${item.name}</div>
-          ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+          <div class="item-name">${item.name || ''}</div>
+          ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
           <div class="tags">
             <span class="tag ${tag.cls}">${tag.label}</span>
           </div>
@@ -356,51 +570,16 @@ function renderInventory() {
       <div class="qty-row">
         <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
         <div class="qty-sep"></div>
-        <div class="qty-num">残り <strong>${item.qty}</strong> 個</div>
+        <div class="qty-num">残り <strong>${item.qty || 0}</strong> 個</div>
         <div class="qty-sep"></div>
         <button class="qty-btn" onclick="changeQty('${item.id}',1)">＋</button>
       </div>
       <div class="item-actions">
-        <button class="act-btn" onclick="openEdit('${item.id}')">✏️ 個数編集</button>
+        <button class="act-btn" onclick="goEdit('${item.id}')">✏️ 編集</button>
+        <button class="act-btn danger" onclick="deleteItem('${item.id}')">🗑️ 削除</button>
       </div>
     </div>`;
   }).join('');
-}
-
-function changeQty(id, delta) {
-  const item = items.find(i => i.id === id);
-  if (!item) return;
-  item.qty = Math.max(0, item.qty + delta);
-  qtyOverrides[id] = item.qty;
-  saveQty();
-  updateStats();
-  renderInventory();
-}
-
-function openEdit(id) {
-  const item = items.find(i => i.id === id);
-  if (!item) return;
-  editingId = id;
-  document.getElementById('ef-name').textContent = item.name;
-  document.getElementById('ef-qty').value = item.qty;
-  showPage('page-edit');
-}
-
-function saveEdit() {
-  const item = items.find(i => i.id === editingId);
-  if (!item) return;
-  item.qty = parseInt(document.getElementById('ef-qty').value) || 0;
-  qtyOverrides[editingId] = item.qty;
-  saveQty();
-  goList();
-  toast('更新しました ✓');
-}
-
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2200);
 }
 </script>
 </body>
