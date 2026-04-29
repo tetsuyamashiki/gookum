@@ -8,6 +8,9 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;background:#FFF8F0;color:#2d2d2d;overscroll-behavior:none;}
 
+.page{display:none;max-width:420px;margin:0 auto;min-height:100vh;background:#FFF8F0;padding-bottom:100px;}
+.page.active{display:block;}
+
 /* ── パスワード画面 ── */
 .pw-screen{display:none;max-width:420px;margin:0 auto;min-height:100vh;background:linear-gradient(160deg,#FF6B6B,#FF8E53);align-items:center;justify-content:center;flex-direction:column;padding:40px 24px;}
 .pw-screen.active{display:flex;}
@@ -15,34 +18,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
 .pw-title{font-size:26px;font-weight:800;color:#fff;margin-bottom:4px;}
 .pw-sub{font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:36px;}
 .pw-box{background:#fff;border-radius:24px;padding:28px 24px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.12);}
-.pw-label{font-size:12px;font-weight:700;color:#FF8E53;margin-bottom:8px;display:block;letter-spacing:.05em;}
+.pw-label{font-size:12px;font-weight:700;color:#FF8E53;margin-bottom:8px;display:block;}
 .pw-input{width:100%;padding:14px;border:2px solid #FFE0D0;border-radius:14px;font-size:20px;color:#2d2d2d;font-family:inherit;letter-spacing:6px;text-align:center;}
 .pw-input:focus{outline:none;border-color:#FF8E53;}
-.pw-btn{width:100%;padding:15px;border-radius:14px;font-size:16px;font-weight:800;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;margin-top:14px;box-shadow:0 4px 14px rgba(255,107,107,0.35);}
+.pw-btn{width:100%;padding:15px;border-radius:14px;font-size:16px;font-weight:800;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;margin-top:14px;}
 .pw-btn:active{opacity:0.8;}
 .pw-error{font-size:13px;color:#FF6B6B;text-align:center;margin-top:12px;min-height:20px;font-weight:600;}
 
-/* ── アプリ画面 ── */
-.page{display:none;max-width:420px;margin:0 auto;min-height:100vh;background:#FFF8F0;padding-bottom:100px;}
-.page.active{display:block;}
-
+/* ── ヘッダー ── */
 .topbar{padding:18px 16px 12px;background:linear-gradient(135deg,#FF6B6B,#FF8E53);display:flex;align-items:center;gap:12px;}
-.topbar-back{font-size:24px;cursor:pointer;padding:0 4px;border:none;background:none;color:#fff;}
-.topbar-title{font-size:22px;font-weight:800;flex:1;color:#fff;letter-spacing:-0.3px;}
+.topbar-title{font-size:22px;font-weight:800;flex:1;color:#fff;}
 .topbar-sub{font-size:12px;color:rgba(255,255,255,0.85);margin-top:3px;}
+.topbar-reload{background:rgba(255,255,255,0.25);border:none;border-radius:20px;color:#fff;font-size:13px;font-weight:600;padding:6px 14px;cursor:pointer;font-family:inherit;}
 
+/* ── フィルター ── */
 .filter-bar{display:flex;gap:8px;padding:14px 14px 6px;overflow-x:auto;}
 .filter-bar::-webkit-scrollbar{display:none;}
-.chip{flex-shrink:0;padding:8px 16px;border-radius:30px;font-size:13px;font-weight:600;border:2px solid #FFD0B0;background:#fff;cursor:pointer;color:#FF8E53;font-family:inherit;transition:all 0.15s;}
+.chip{flex-shrink:0;padding:8px 16px;border-radius:30px;font-size:13px;font-weight:600;border:2px solid #FFD0B0;background:#fff;cursor:pointer;color:#FF8E53;font-family:inherit;}
 .chip.active{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;border-color:transparent;}
 
+/* ── リスト ── */
 .list-wrap{padding:10px 14px;}
 .item-card{background:#fff;border-radius:20px;margin-bottom:14px;overflow:hidden;box-shadow:0 3px 12px rgba(255,107,107,0.1);}
 .item-top{display:flex;gap:12px;padding:14px;}
 .thumb{width:76px;height:76px;border-radius:14px;background:linear-gradient(135deg,#FFE0D0,#FFD0B0);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;font-weight:700;color:#FF6B6B;}
 .thumb img{width:100%;height:100%;object-fit:cover;}
 .item-main{flex:1;min-width:0;}
-.item-name{font-size:16px;font-weight:700;line-height:1.3;color:#2d2d2d;}
+.item-name{font-size:16px;font-weight:700;line-height:1.3;}
 .item-desc{font-size:12px;color:#aaa;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
 .tag{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:600;}
@@ -63,37 +65,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
 .act-btn:active{background:#FFF0EC;}
 .act-btn.danger{color:#FF6B6B;}
 
-.empty{text-align:center;padding:4rem 1rem;color:#FFB899;font-size:14px;line-height:2;}
+/* ── 登録ボタン ── */
+.register-bar{padding:12px 14px 0;}
+.register-btn{display:block;width:100%;padding:16px;background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;border:none;border-radius:16px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;box-shadow:0 4px 14px rgba(255,107,107,0.35);}
+
+/* ── ローディング ── */
+.loading{text-align:center;padding:3rem 1rem;color:#FFB899;font-size:14px;}
+.loading-icon{font-size:40px;display:block;margin-bottom:12px;animation:spin 1.5s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:3rem 1rem;color:#FFB899;font-size:14px;line-height:2;}
 .empty-icon{font-size:48px;display:block;margin-bottom:12px;}
 
-.fab{position:fixed;bottom:24px;right:16px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;border:none;font-size:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:9;box-shadow:0 4px 16px rgba(255,107,107,0.45);}
-@media(min-width:420px){.fab{right:calc(50% - 194px);}}
+.toast{position:fixed;top:76px;left:50%;transform:translateX(-50%);background:#2d2d2d;color:#fff;padding:11px 24px;border-radius:30px;font-size:14px;font-weight:600;z-index:30;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
 
+/* ── 編集画面 ── */
+.topbar-back{font-size:24px;cursor:pointer;padding:0 4px;border:none;background:none;color:#fff;}
 .form-wrap{padding:18px 14px;}
-.camera-area{margin-bottom:20px;}
-.cam-placeholder{width:100%;height:170px;border-radius:20px;background:linear-gradient(135deg,#FFE8DC,#FFD0B0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:none;font-family:inherit;cursor:pointer;}
-.cam-placeholder-icon{font-size:44px;}
-.cam-placeholder-text{font-size:15px;color:#FF6B6B;font-weight:700;}
-.cam-placeholder-sub{font-size:12px;color:#FFB899;}
-.cam-preview-img{width:100%;height:170px;object-fit:cover;border-radius:20px;display:block;}
-.cam-retake{width:100%;margin-top:10px;padding:12px;border:2px solid #FFD0B0;border-radius:14px;background:#fff;font-size:14px;font-weight:600;color:#FF8E53;cursor:pointer;font-family:inherit;}
-.cam-retake:active{background:#FFF0EC;}
-input[type=file]{display:none;}
-
 .fg{margin-bottom:16px;}
-.fl{font-size:12px;color:#FF8E53;margin-bottom:6px;display:block;font-weight:700;letter-spacing:.03em;}
+.fl{font-size:12px;color:#FF8E53;margin-bottom:6px;display:block;font-weight:700;}
 .fi{width:100%;padding:14px;border:2px solid #FFE0D0;border-radius:14px;font-size:16px;color:#2d2d2d;background:#fff;font-family:inherit;}
 .fi:focus{outline:none;border-color:#FF8E53;}
 .frow{display:flex;gap:10px;}
 .frow .fg{flex:1;}
-
 .btn{width:100%;padding:16px;border-radius:16px;font-size:16px;font-weight:800;border:none;cursor:pointer;font-family:inherit;}
 .btn:active{opacity:0.8;}
 .btn-primary{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:#fff;box-shadow:0 4px 14px rgba(255,107,107,0.35);}
 .btn-light{background:#FFF0EC;color:#FF8E53;margin-top:10px;}
-
-.toast{position:fixed;top:76px;left:50%;transform:translateX(-50%);background:#2d2d2d;color:#fff;padding:11px 24px;border-radius:30px;font-size:14px;font-weight:600;z-index:30;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;}
-.toast.show{opacity:1;}
 </style>
 </head>
 <body>
@@ -118,6 +116,10 @@ input[type=file]{display:none;}
       <div class="topbar-title">🌺 ぐーくむ流通</div>
       <div class="topbar-sub" id="stats-bar">―</div>
     </div>
+    <button class="topbar-reload" onclick="loadData()">↺ 更新</button>
+  </div>
+  <div class="register-bar">
+    <a class="register-btn" href="https://forms.gle/YnrhSFmySJu4Tu9U9" target="_blank">＋ 商品を登録する</a>
   </div>
   <div class="filter-bar">
     <button class="chip active" onclick="setFilter('all',this)">すべて</button>
@@ -125,51 +127,8 @@ input[type=file]{display:none;}
     <button class="chip" onclick="setFilter('expiring30',this)">⏰ 30日以内</button>
     <button class="chip" onclick="setFilter('expired',this)">期限切れ</button>
   </div>
-  <div class="list-wrap" id="inventory-list"></div>
-  <button class="fab" onclick="goAdd()">＋</button>
-</div>
-
-<!-- ══════════ 追加画面 ══════════ -->
-<div id="page-add" class="page">
-  <div class="topbar">
-    <button class="topbar-back" onclick="goList()">‹</button>
-    <div class="topbar-title">追加する</div>
-  </div>
-  <div class="form-wrap">
-    <div class="camera-area">
-      <div id="add-empty">
-        <button class="cam-placeholder" onclick="document.getElementById('add-file').click()">
-          <span class="cam-placeholder-icon">📷</span>
-          <span class="cam-placeholder-text">写真を撮る</span>
-          <span class="cam-placeholder-sub">スキップしてもOK</span>
-        </button>
-      </div>
-      <div id="add-has-photo" style="display:none;">
-        <img id="add-img" class="cam-preview-img" src="" alt="">
-        <button class="cam-retake" onclick="document.getElementById('add-file').click()">📷 撮り直す</button>
-      </div>
-      <input type="file" id="add-file" accept="image/*" capture="environment" onchange="onPhoto(event,'add')">
-    </div>
-    <div class="fg">
-      <label class="fl">商品名 *</label>
-      <input class="fi" id="f-name" type="text" placeholder="例：ポカリスエット 500ml×6本">
-    </div>
-    <div class="fg">
-      <label class="fl">メモ・詳細</label>
-      <input class="fi" id="f-desc" type="text" placeholder="例：常温保存、未開封">
-    </div>
-    <div class="frow">
-      <div class="fg">
-        <label class="fl">個数</label>
-        <input class="fi" id="f-qty" type="number" min="1" value="1">
-      </div>
-      <div class="fg">
-        <label class="fl">賞味期限</label>
-        <input class="fi" id="f-exp" type="date">
-      </div>
-    </div>
-    <button class="btn btn-primary" onclick="saveItem()">登録する 🎉</button>
-    <button class="btn btn-light" onclick="goList()">キャンセル</button>
+  <div class="list-wrap" id="inventory-list">
+    <div class="loading"><span class="loading-icon">🌀</span>読み込み中...</div>
   </div>
 </div>
 
@@ -177,39 +136,16 @@ input[type=file]{display:none;}
 <div id="page-edit" class="page">
   <div class="topbar">
     <button class="topbar-back" onclick="goList()">‹</button>
-    <div class="topbar-title">編集する</div>
+    <div class="topbar-title">個数を編集</div>
   </div>
   <div class="form-wrap">
-    <div class="camera-area">
-      <div id="edit-empty">
-        <button class="cam-placeholder" onclick="document.getElementById('edit-file').click()">
-          <span class="cam-placeholder-icon">📷</span>
-          <span class="cam-placeholder-text">写真を撮る</span>
-        </button>
-      </div>
-      <div id="edit-has-photo" style="display:none;">
-        <img id="edit-img" class="cam-preview-img" src="" alt="">
-        <button class="cam-retake" onclick="document.getElementById('edit-file').click()">📷 撮り直す</button>
-      </div>
-      <input type="file" id="edit-file" accept="image/*" capture="environment" onchange="onPhoto(event,'edit')">
-    </div>
     <div class="fg">
       <label class="fl">商品名</label>
-      <input class="fi" id="ef-name" type="text">
+      <div class="fi" id="ef-name" style="background:#f9f9f9;color:#888;"></div>
     </div>
     <div class="fg">
-      <label class="fl">メモ</label>
-      <input class="fi" id="ef-desc" type="text">
-    </div>
-    <div class="frow">
-      <div class="fg">
-        <label class="fl">個数</label>
-        <input class="fi" id="ef-qty" type="number" min="0">
-      </div>
-      <div class="fg">
-        <label class="fl">賞味期限</label>
-        <input class="fi" id="ef-exp" type="date">
-      </div>
+      <label class="fl">個数</label>
+      <input class="fi" id="ef-qty" type="number" min="0">
     </div>
     <button class="btn btn-primary" onclick="saveEdit()">保存する ✓</button>
     <button class="btn btn-light" onclick="goList()">キャンセル</button>
@@ -220,12 +156,21 @@ input[type=file]{display:none;}
 
 <script>
 const PASSWORD = 'gookum';
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQPgR_RfnNUq8qOumo6Ow0c5u3Bk3UqN0e6RiUV2Ps4Zrx42l0S2TrD-62i1hPjeISCAmIb6XWmugz_/pub?gid=392660391&single=true&output=csv';
 
-let items = JSON.parse(localStorage.getItem('gukumu_v1') || '[]');
+let items = [];
+let qtyOverrides = {}; // 個数の上書き保存（localStorageで管理）
 let currentFilter = 'all';
 let editingId = null;
-let addImg = '';
-let editImg = '';
+
+/* ── 起動時にlocalStorageから個数上書きを復元 ── */
+try {
+  qtyOverrides = JSON.parse(localStorage.getItem('gukumu_qty') || '{}');
+} catch(e) { qtyOverrides = {}; }
+
+function saveQty() {
+  try { localStorage.setItem('gukumu_qty', JSON.stringify(qtyOverrides)); } catch(e) {}
+}
 
 /* ── パスワード ── */
 function checkPw() {
@@ -235,7 +180,7 @@ function checkPw() {
     document.getElementById('page-pw').classList.remove('active');
     document.getElementById('page-pw').style.display = 'none';
     showPage('page-list');
-    renderInventory();
+    loadData();
   } else {
     const err = document.getElementById('pw-error');
     err.textContent = 'パスワードが違います';
@@ -244,13 +189,13 @@ function checkPw() {
   }
 }
 
-// セッション中は再入力不要
 (function() {
   try {
     if (sessionStorage.getItem('gukumu_auth') === '1') {
       document.getElementById('page-pw').classList.remove('active');
       document.getElementById('page-pw').style.display = 'none';
       document.getElementById('page-list').classList.add('active');
+      loadData();
     }
   } catch(e) {}
 })();
@@ -267,126 +212,70 @@ function goList() {
   renderInventory();
 }
 
-function goAdd() {
-  addImg = '';
-  document.getElementById('add-file').value = '';
-  document.getElementById('add-img').src = '';
-  document.getElementById('add-empty').style.display = 'block';
-  document.getElementById('add-has-photo').style.display = 'none';
-  document.getElementById('f-name').value = '';
-  document.getElementById('f-desc').value = '';
-  document.getElementById('f-qty').value = '1';
-  document.getElementById('f-exp').value = '';
-  showPage('page-add');
-}
-
-function goEdit(id) {
-  const item = items.find(i => i.id === id);
-  if (!item) return;
-  editingId = id;
-  editImg = item.img || '';
-  document.getElementById('edit-file').value = '';
-  if (item.img) {
-    document.getElementById('edit-img').src = item.img;
-    document.getElementById('edit-empty').style.display = 'none';
-    document.getElementById('edit-has-photo').style.display = 'block';
-  } else {
-    document.getElementById('edit-img').src = '';
-    document.getElementById('edit-empty').style.display = 'block';
-    document.getElementById('edit-has-photo').style.display = 'none';
+/* ── スプレッドシートからCSVを読み込む ── */
+async function loadData() {
+  document.getElementById('inventory-list').innerHTML =
+    '<div class="loading"><span class="loading-icon">🌀</span>読み込み中...</div>';
+  try {
+    const res = await fetch(CSV_URL + '&t=' + Date.now());
+    const text = await res.text();
+    items = parseCSV(text);
+    renderInventory();
+    updateStats();
+  } catch(e) {
+    document.getElementById('inventory-list').innerHTML =
+      '<div class="empty"><span class="empty-icon">⚠️</span>データの読み込みに失敗しました<br>↺ 更新ボタンを押してください</div>';
   }
-  document.getElementById('ef-name').value = item.name;
-  document.getElementById('ef-desc').value = item.desc || '';
-  document.getElementById('ef-qty').value = item.qty;
-  document.getElementById('ef-exp').value = item.exp || '';
-  showPage('page-edit');
 }
 
-/* ── 写真 ── */
-function onPhoto(e, mode) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    const data = ev.target.result;
-    if (mode === 'add') {
-      addImg = data;
-      document.getElementById('add-img').src = data;
-      document.getElementById('add-empty').style.display = 'none';
-      document.getElementById('add-has-photo').style.display = 'block';
+/* ── CSV解析 ── */
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) return [];
+  // ヘッダー行をスキップ、データ行を解析
+  // 列順：タイムスタンプ, 商品名, メモ, 個数, 賞味期限, 写真URL
+  return lines.slice(1).map((line, i) => {
+    const cols = parseCSVLine(line);
+    const id = 'row_' + i;
+    return {
+      id,
+      name: cols[1] || '',
+      desc: cols[2] || '',
+      qty: qtyOverrides[id] !== undefined ? qtyOverrides[id] : (parseInt(cols[3]) || 1),
+      exp: parseDate(cols[4] || ''),
+      imgUrl: cols[5] || '',
+      createdAt: cols[0] || ''
+    };
+  }).filter(i => i.name);
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    if (line[i] === '"') {
+      inQuotes = !inQuotes;
+    } else if (line[i] === ',' && !inQuotes) {
+      result.push(current.trim());
+      current = '';
     } else {
-      editImg = data;
-      document.getElementById('edit-img').src = data;
-      document.getElementById('edit-empty').style.display = 'none';
-      document.getElementById('edit-has-photo').style.display = 'block';
+      current += line[i];
     }
-  };
-  reader.readAsDataURL(file);
+  }
+  result.push(current.trim());
+  return result;
 }
 
-/* ── データ ── */
-function save() {
-  try { localStorage.setItem('gukumu_v1', JSON.stringify(items)); } catch(e) {}
-  updateStats();
-}
-
-function saveItem() {
-  const name = document.getElementById('f-name').value.trim();
-  if (!name) { alert('商品名を入力してください'); return; }
-  items.unshift({
-    id: Date.now().toString(),
-    name,
-    desc: document.getElementById('f-desc').value.trim(),
-    qty: parseInt(document.getElementById('f-qty').value) || 1,
-    exp: document.getElementById('f-exp').value,
-    img: addImg,
-    createdAt: new Date().toLocaleString('ja-JP')
-  });
-  save();
-  goList();
-  toast('登録しました 🎉');
-}
-
-function saveEdit() {
-  const item = items.find(i => i.id === editingId);
-  if (!item) return;
-  const name = document.getElementById('ef-name').value.trim();
-  if (!name) { alert('商品名を入力してください'); return; }
-  item.name = name;
-  item.desc = document.getElementById('ef-desc').value.trim();
-  item.qty = parseInt(document.getElementById('ef-qty').value) || 0;
-  item.exp = document.getElementById('ef-exp').value;
-  item.img = editImg;
-  save();
-  goList();
-  toast('更新しました ✓');
-}
-
-function deleteItem(id) {
-  const item = items.find(i => i.id === id);
-  if (!item || !confirm(`「${item.name}」を削除しますか？`)) return;
-  items = items.filter(i => i.id !== id);
-  save();
-  renderInventory();
-  toast('削除しました');
-}
-
-function changeQty(id, delta) {
-  const item = items.find(i => i.id === id);
-  if (!item) return;
-  item.qty = Math.max(0, item.qty + delta);
-  save();
-  renderInventory();
+function parseDate(str) {
+  if (!str) return '';
+  // 色々な日付形式に対応
+  const m = str.match(/(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})/);
+  if (m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+  return '';
 }
 
 /* ── 表示 ── */
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2200);
-}
-
 function updateStats() {
   const active = items.filter(i => i.qty > 0).length;
   const expiring14 = items.filter(i => {
@@ -445,14 +334,17 @@ function renderInventory() {
 
   const el = document.getElementById('inventory-list');
   if (!list.length) {
-    el.innerHTML = '<div class="empty"><span class="empty-icon">📦</span>該当する商品がありません<br>右下の ＋ から登録してください</div>';
+    el.innerHTML = '<div class="empty"><span class="empty-icon">📦</span>該当する商品がありません</div>';
     return;
   }
   el.innerHTML = list.map(item => {
     const tag = getTag(item);
+    const imgHtml = item.imgUrl
+      ? `<img src="${item.imgUrl}" alt="" onerror="this.style.display='none'">`
+      : item.name.slice(0,2);
     return `<div class="item-card">
       <div class="item-top">
-        <div class="thumb">${item.img ? `<img src="${item.img}" alt="">` : item.name.slice(0,2)}</div>
+        <div class="thumb">${imgHtml}</div>
         <div class="item-main">
           <div class="item-name">${item.name}</div>
           ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
@@ -469,14 +361,47 @@ function renderInventory() {
         <button class="qty-btn" onclick="changeQty('${item.id}',1)">＋</button>
       </div>
       <div class="item-actions">
-        <button class="act-btn" onclick="goEdit('${item.id}')">✏️ 編集</button>
-        <button class="act-btn danger" onclick="deleteItem('${item.id}')">🗑️ 削除</button>
+        <button class="act-btn" onclick="openEdit('${item.id}')">✏️ 個数編集</button>
       </div>
     </div>`;
   }).join('');
 }
 
-updateStats();
+function changeQty(id, delta) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  item.qty = Math.max(0, item.qty + delta);
+  qtyOverrides[id] = item.qty;
+  saveQty();
+  updateStats();
+  renderInventory();
+}
+
+function openEdit(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  editingId = id;
+  document.getElementById('ef-name').textContent = item.name;
+  document.getElementById('ef-qty').value = item.qty;
+  showPage('page-edit');
+}
+
+function saveEdit() {
+  const item = items.find(i => i.id === editingId);
+  if (!item) return;
+  item.qty = parseInt(document.getElementById('ef-qty').value) || 0;
+  qtyOverrides[editingId] = item.qty;
+  saveQty();
+  goList();
+  toast('更新しました ✓');
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
 </script>
 </body>
 </html>
